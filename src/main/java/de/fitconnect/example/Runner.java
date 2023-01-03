@@ -64,5 +64,7 @@ public class Runner implements CommandLineRunner {
         JWEObject jweObject = new JWEObject(jweHeader, new Payload(messageToSend));
         jweObject.encrypt(new RSAEncrypter(publicKey));
         String encryptedPayload = jweObject.serialize();
+
+        // TODO upload attachments
     }
 }
