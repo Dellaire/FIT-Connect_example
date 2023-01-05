@@ -10,6 +10,10 @@ import de.fitconnect.example.configuration.FitConnectProperties;
 import de.fitconnect.example.data.PublicKey;
 import de.fitconnect.example.data.ServiceType;
 import de.fitconnect.example.data.SubmissionAnnouncement;
+import de.fitconnect.example.data.metadata.Metadata;
+import de.fitconnect.example.data.metadata.MetadataContentStructure;
+import de.fitconnect.example.data.metadata.MetadataContentStructureData;
+import de.fitconnect.example.data.metadata.MetadataContentStructureDataHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -52,6 +56,11 @@ public class Runner implements CommandLineRunner {
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
         messageDigest.update(salt);
         byte[] payloadHash = messageDigest.digest(messageToSend.getBytes(StandardCharsets.UTF_8));
+        Metadata metadata = new Metadata()
+                .setContentStructure(new MetadataContentStructure()
+                        .setData(new MetadataContentStructureData()
+                                .setHash(new MetadataContentStructureDataHash()
+                                        .setContent(new String(payloadHash)))));
 
         // TODO hash attachments
 
