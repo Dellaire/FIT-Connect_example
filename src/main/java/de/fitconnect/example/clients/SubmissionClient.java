@@ -1,6 +1,7 @@
 package de.fitconnect.example.clients;
 
 import de.fitconnect.example.configuration.FitConnectProperties;
+import de.fitconnect.example.data.Submission;
 import de.fitconnect.example.data.SubmissionAnnouncement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -27,5 +28,15 @@ public class SubmissionClient {
         HttpEntity<SubmissionAnnouncement> httpEntity = new HttpEntity<>(submissionAnnouncement, httpHeaders);
 
         this.restTemplate.exchange(this.fitConnectProperties.getSubmissionUrl(), HttpMethod.POST, httpEntity, String.class);
+    }
+
+    public void sendSubmission(Submission submission, String submissionId) {
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+        HttpEntity<Submission> httpEntity = new HttpEntity<>(submission, httpHeaders);
+
+        this.restTemplate.exchange(this.fitConnectProperties.getSubmissionUrl() + submissionId, HttpMethod.POST, httpEntity, String.class);
     }
 }
